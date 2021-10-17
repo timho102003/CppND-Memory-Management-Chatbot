@@ -5,6 +5,7 @@
 #include "chatbot.h"
 #include "chatlogic.h"
 #include "chatgui.h"
+#include <iostream>
 
 // size of chatbot window
 const int width = 414;
@@ -62,7 +63,10 @@ void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
     _userTextCtrl->Clear();
 
     // send user text to chatbot 
-     _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
+    ChatLogic *cur_chatlogic = _panelDialog->GetChatLogicHandle();
+    std::cout << "_panelDialog->GetchatLogicHandle() address: " << &cur_chatlogic << std::endl;
+    // _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
+    cur_chatlogic->SendMessageToChatbot(std::string(userText.mb_str()));
 }
 
 BEGIN_EVENT_TABLE(ChatBotFrameImagePanel, wxPanel)
@@ -118,7 +122,9 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     ////
 
     // create chat logic instance
-    _chatLogic = new ChatLogic(); 
+    _chatLogic = std::make_unique<ChatLogic>();
+    // _chatLogic = std::make_shared<ChatLogic>();
+    std::cout << "_chatLogic address: " << &_chatLogic << std::endl;
 
     // pass pointer to chatbot dialog so answers can be displayed in GUI
     _chatLogic->SetPanelDialogHandle(this);
@@ -135,7 +141,8 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
     //// STUDENT CODE
     ////
 
-    delete _chatLogic;
+    // delete _chatLogic;
+    std::cout << " [Destructor] Leave ChatBotPanelDialog" << std::endl;
 
     ////
     //// EOF STUDENT CODE
