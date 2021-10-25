@@ -34,29 +34,11 @@ public:
     // copy constructor
     ChatBot(const ChatBot &source);
     // copy assignment
-    ChatBot &operator=(const ChatBot &source){
-        std::cout << "ChatBot Copy Assign Constructor" << std::endl; 
-        if (this==&source){
-            return *this;
-        }
-        delete _image;
-        _image = new wxBitmap;
-        *_image = *source._image;
-
-        return *this;
-    };
+    ChatBot &operator=(ChatBot &source);
     // move constructor
     ChatBot(ChatBot &&source);
     // move assignment
-    ChatBot &operator=(ChatBot &&source){
-        std::cout << "ChatBot Move Assign Constructor" << std::endl; 
-        if (this==&source){
-            return *this;
-        }
-        _image = source._image;
-        source._image = nullptr;
-        return *this;
-    };
+    ChatBot &operator=(ChatBot &&source);
 
     ////
     //// EOF STUDENT CODE
